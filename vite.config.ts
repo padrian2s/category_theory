@@ -15,7 +15,10 @@ export default defineConfig({
       '@contexts': path.resolve(__dirname, './src/contexts'),
     },
   },
-  base: './', // For GitHub Pages compatibility
+  // For GitHub Pages: set to repo name like '/category_theory/'
+  // For local dev or custom domain: use '/'
+  // Can be overridden with VITE_BASE_URL env variable
+  base: process.env.VITE_BASE_URL || '/category_theory/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

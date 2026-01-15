@@ -200,10 +200,12 @@ export function getConceptsForPage(pageNumber: number): string[] {
 
 /**
  * Generate page image path
+ * Uses import.meta.env.BASE_URL for GitHub Pages compatibility
  */
 export function getPageImagePath(pageNumber: number): string {
   const paddedNum = String(pageNumber).padStart(2, '0');
-  return `/pages/Category_Theory-${paddedNum}.png`;
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  return `${baseUrl}pages/Category_Theory-${paddedNum}.png`;
 }
 
 /**
