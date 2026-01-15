@@ -1,0 +1,267 @@
+.nt-visualizer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.nt-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  align-items: center;
+}
+
+.preset-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.preset-selector svg {
+  color: var(--color-accent);
+}
+
+.preset-selector label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.preset-selector select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.8125rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.preset-selector select:hover {
+  border-color: var(--color-accent);
+}
+
+.path-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.path-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.btn-warning {
+  background-color: #f59f00;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #e67700;
+}
+
+.nt-description {
+  padding: var(--spacing-sm);
+  font-size: 0.8125rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-accent);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nt-canvas {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  min-height: 280px;
+  transition: border-color var(--transition-fast);
+}
+
+.nt-canvas.animating {
+  border-color: var(--color-accent);
+}
+
+.nt-canvas svg {
+  display: block;
+}
+
+/* SVG element animations */
+.nt-visualizer .nt-node {
+  transition: transform 0.15s ease;
+}
+
+.nt-visualizer .nt-node:hover {
+  transform: scale(1.05);
+}
+
+.nt-visualizer .nt-arrow {
+  transition: opacity 0.15s ease;
+}
+
+.nt-visualizer .nt-arrow.highlighted line {
+  stroke-width: 3;
+}
+
+.nt-visualizer .nt-arrow:hover line {
+  stroke-width: 4;
+}
+
+.nt-visualizer .commutes-indicator {
+  animation: commutePulse 2s ease-in-out infinite;
+}
+
+@keyframes commutePulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.nt-equation {
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, rgba(66, 99, 235, 0.05) 0%, rgba(64, 192, 87, 0.05) 100%);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all var(--transition-fast);
+  border: 2px solid transparent;
+}
+
+.nt-equation.highlight {
+  border-color: var(--color-accent);
+  background: linear-gradient(135deg, rgba(66, 99, 235, 0.1) 0%, rgba(64, 192, 87, 0.1) 100%);
+}
+
+.equation-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.equation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.path-top {
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.path-top.active {
+  color: var(--color-success);
+  text-shadow: 0 0 8px rgba(64, 192, 87, 0.3);
+}
+
+.path-bottom {
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.path-bottom.active {
+  color: #f59f00;
+  text-shadow: 0 0 8px rgba(245, 159, 0, 0.3);
+}
+
+.equals {
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+.equation-description {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+.nt-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.nt-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: all var(--transition-fast);
+}
+
+.nt-actions .btn.animating {
+  background-color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.nt-actions .btn .spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.nt-explanation {
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+}
+
+.nt-explanation h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.nt-explanation h4 svg {
+  color: var(--color-accent);
+}
+
+.nt-explanation p {
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.5;
+}
+
+.nt-explanation ul {
+  margin: 0;
+  padding-left: var(--spacing-lg);
+}
+
+.nt-explanation li {
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.5;
+}
+
+.path-label {
+  display: inline-block;
+  padding: 0 var(--spacing-xs);
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.path-label.top {
+  background-color: rgba(64, 192, 87, 0.2);
+  color: var(--color-success);
+}
+
+.path-label.bottom {
+  background-color: rgba(245, 159, 0, 0.2);
+  color: #f59f00;
+}

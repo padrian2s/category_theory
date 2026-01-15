@@ -1,0 +1,39 @@
+.math-block {
+  font-size: 1em;
+}
+
+.math-block.display {
+  display: block;
+  margin: var(--spacing-md) 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.math-block.inline {
+  display: inline;
+}
+
+.math-error {
+  color: var(--color-error);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: rgba(250, 82, 82, 0.1);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+}
+
+/* KaTeX overrides for better theming */
+.katex {
+  font-size: 1.1em;
+}
+
+.katex .mord.text {
+  font-family: var(--font-sans);
+}
+
+/* Dark mode support for KaTeX */
+@media (prefers-color-scheme: dark) {
+  .katex {
+    color: var(--color-text-primary);
+  }
+}
