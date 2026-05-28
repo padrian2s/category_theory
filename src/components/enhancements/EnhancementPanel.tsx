@@ -1,4 +1,6 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { useBook } from '../../contexts/BookContext';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import ExamplesTab from './ExamplesTab';
 import SimulatorTab from './SimulatorTab';
 import ApplicationsTab from './ApplicationsTab';
@@ -16,12 +18,59 @@ const tabs = [
   { id: 'learning', label: 'Learning Path', icon: '🎯' },
 ] as const;
 
+const MIN_PANEL_WIDTH = 280;
+const MAX_PANEL_WIDTH_RATIO = 0.8;
+const DEFAULT_PANEL_WIDTH = 420;
+
 export default function EnhancementPanel({ isOpen }: EnhancementPanelProps) {
   const { activeTab, setActiveTab, currentSection, enhancementPanelFullscreen, toggleEnhancementPanelFullscreen } = useBook();
+  const [panelWidth, setPanelWidth] = useLocalStorage<number>(
+    'category-theory-panel-width',
+    DEFAULT_PANEL_WIDTH
+  );
+  const isResizingRef = useRef(false);
+
+  const handleResizeStart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      isResizingRef.current = true;
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    },
+    []
+  );
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizingRef.current) return;
+      const maxWidth = window.innerWidth * MAX_PANEL_WIDTH_RATIO;
+      const next = Math.min(
+        Math.max(window.innerWidth - e.clientX, MIN_PANEL_WIDTH),
+        maxWidth
+      );
+      setPanelWidth(next);
+    };
+    const handleMouseUp = () => {
+      if (!isResizingRef.current) return;
+      isResizingRef.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [setPanelWidth]);
 
   if (!isOpen) {
     return null;
   }
+
+  const panelStyle = enhancementPanelFullscreen
+    ? undefined
+    : { width: `${panelWidth}px`, minWidth: `${panelWidth}px` };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -39,7 +88,14 @@ export default function EnhancementPanel({ isOpen }: EnhancementPanelProps) {
   };
 
   return (
-    <aside className={`enhancement-panel ${enhancementPanelFullscreen ? 'fullscreen' : ''}`}>
+    <aside className={`enhancement-panel ${enhancementPanelFullscreen ? 'fullscreen' : ''}`} style={panelStyle}>
+      <div
+        className="panel-resizer"
+        onMouseDown={handleResizeStart}
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize enhancement panel"
+      />
       <div className="panel-header">
         <div className="panel-header-content">
           <h2>Interactive Enhancements</h2>
